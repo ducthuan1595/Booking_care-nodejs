@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table, th, td {
+      border:1px solid black;
+    }
+
+    .btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #333;
+      margin: 0 5px;
+      background-color: #dfd7d7;
+    }
+    </style>
+</head>
+<body>
+  <table style="width:100%" >
+    <tr>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Action</th>
+    </tr>
+    <% for(let i = 0; i < data.length; i++) { %>
+      <tr>
+        <td><%= data[i].firstName %></td>
+        <td><%= data[i].lastName %></td>
+        <td><%= data[i].email %></td>
+        <td><%= data[i].address %></td>
+        <td>
+          <a href="/edit-crud?id=<%= data[i].id %>" class="btn" type="button">Edit</a>
+          <a href="/delete-crud?id=<%= data[i].id %>" class="btn" type="button">Delete</a>
+        </td>
+      </tr>
+    <%} %>
+  </table>
+</body>
+</html>
