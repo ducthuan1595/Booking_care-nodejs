@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import viewEngine from './config/viewEngine';
 import initWebRouters from './route/web';
 import connectDB from './config/connectDB';
-const cors = require('cors');
+// const cors = require('cors');
 require('dotenv').config();
 
 let app = express();
