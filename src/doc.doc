@@ -1,0 +1,12 @@
+Use Promise to sử lý hàm bất đồng bộ
+
+$ Creat API
+ - creat ulr: /route/web.js
+ - create controller: /controllers/userController.js
+ - get infor from userService
+ - create data from userService.js
+
+ Run: get url from web.js call useController.js, from userController infor success or fair after get data dk back from userService. In userService get data from db.models
+
+ - db là bản ghi lại người dùng(use db find user) -> models/index.js
+    + tham chiếu đến model user
