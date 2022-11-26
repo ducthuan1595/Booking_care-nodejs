@@ -112,9 +112,10 @@ let createNewUser = (data) => {
           lastName: data.lastName,
           email: data.email,
           password: hashPasswordFromBcrypt,
-          gender: data.genderId === "1" ? true : false,
+          gender: data.gender,
           address: data.address,
           roleId: data.roleId,
+          positionId: data.positionId,
           phoneNumber: data.phoneNumber,
         });
         resolve({

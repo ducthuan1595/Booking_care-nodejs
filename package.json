@@ -1,7 +1,7 @@
 {
-  "name": "new-folder",
+  "name": "booking-care",
   "version": "1.0.0",
-  "description": "",
+  "description": "learn from hoidanIT",
   "main": "serrver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,5 +26,13 @@
     "@babel/preset-env": "^7.19.4",
     "nodemon": "^2.0.7",
     "sequelize-cli": "^6.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ducthuan1595/Booking_care-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ducthuan1595/Booking_care-nodejs/issues"
+  },
+  "homepage": "https://github.com/ducthuan1595/Booking_care-nodejs#readme"
 }
