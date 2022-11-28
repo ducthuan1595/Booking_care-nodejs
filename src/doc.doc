@@ -10,3 +10,5 @@ $ Creat API
 
  - db là bản ghi lại người dùng(use db find user) -> models/index.js
     + tham chiếu đến model user
+
+&. add migrate in (migrations/migration-update-blob-user.js -> cd .src/ npx sequelize-cli db:migrate)

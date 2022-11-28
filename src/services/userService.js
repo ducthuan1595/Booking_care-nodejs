@@ -102,7 +102,7 @@ let createNewUser = (data) => {
       let check = await checkUserEmail(data.email);
       if (check === true) {
         resolve({
-          erroCode: 1,
+          errCode: 1,
           errMessage: "Your email is not availible!",
         });
       } else {
@@ -117,6 +117,7 @@ let createNewUser = (data) => {
           roleId: data.roleId,
           positionId: data.positionId,
           phoneNumber: data.phoneNumber,
+          image: data.avatar,
         });
         resolve({
           errCode: 0,
@@ -158,7 +159,7 @@ let deleteUser = (id) => {
 let updateUserData = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.id || !data.roleId || !data.positionId || !data.gender) {
         resolve({
           errCode: 2,
           errMessage: "Missing required param",
@@ -172,13 +173,15 @@ let updateUserData = (data) => {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
         user.address = data.address;
-        console.log(user);
+        user.phoneNumber = data.phoneNumber;
+        user.roleId = data.roleId;
+        user.positionId = data.positionId;
+        user.gender = data.gender;
+        if (data.avatar) {
+          user.image = data.avatar;
+        }
         await user.save();
-        // await db.User.save({
-        //   firstName: data.firstName,
-        //   lastName: data.lastName.
-        //   address = data.address,
-        // })
+
         resolve({
           errCode: 0,
           message: "Update user successfuly",
