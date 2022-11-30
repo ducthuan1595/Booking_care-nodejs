@@ -184,7 +184,7 @@ let updateUserData = (data) => {
 
         resolve({
           errCode: 0,
-          message: "Update user successfuly",
+          errMessage: "Update user successfuly",
         });
       } else {
         resolve({

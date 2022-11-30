@@ -18,10 +18,17 @@ let initWebRouters = (app) => {
   router.post("/api/create-new-user", userController.handleCreateNewUser);
   router.put("/api/edit-user", userController.hanldeEditUser);
   router.delete("/api/delete-user", userController.hanldeDeleteUser);
+  router.get("/api/allcode", userController.getAllcode); //get all user
 
-  //create API
-  router.get("/api/allcode", userController.getAllcode); //"/api/edit-user"
+  //api doctor
   router.get("/api/top-doctor-home", doctorController.getHomeDoctor);
+  router.get("/api/get-all-doctors", doctorController.getAllDoctor);
+  router.post("/api/save-infor-doctors", doctorController.postInforDoctors);
+
+  router.get(
+    "/api/get-detail-doctor-by-id",
+    doctorController.getDetailDoctorById
+  );
 
   return app.use("/", router);
 };
