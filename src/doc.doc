@@ -12,3 +12,5 @@ $ Creat API
     + tham chiếu đến model user
 
 &. add migrate in (migrations/migration-update-blob-user.js -> cd .src/ npx sequelize-cli db:migrate)
+
+- add multiple data the same time(bulk create sequelize)
