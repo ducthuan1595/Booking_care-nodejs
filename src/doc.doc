@@ -16,3 +16,8 @@ ORM (sequelize)
 
 - add multiple data the same time(bulk create sequelize)
 - Error when not add "s"( add freezeTableName: true in models/in Booking.init)
+- npx sequelize-cli db:migrate //pass again db
+
+Post: 86:
+ -use nodemailer to send email (npm i nodemailer) //treat send email confirm
+ -use uuid create chair random unique(npm i uuid) //treat with token confirm

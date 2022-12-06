@@ -15,6 +15,9 @@ module.exports = {
       statusId: {
         type: Sequelize.STRING,
       },
+      token: {
+        type: Sequelize.STRING,
+      },
       patientId: {
         type: Sequelize.STRING,
       },

@@ -277,6 +277,11 @@ let getScheduleByDateService = (doctorId, date) => {
               as: "timeTypeData",
               attributes: ["value_vi", "value_en"],
             },
+            {
+              model: db.User,
+              as: "doctorData",
+              attributes: ["firstName", "lastName"],
+            },
           ],
           raw: false,
           nest: true,
