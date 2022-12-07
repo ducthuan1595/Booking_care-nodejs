@@ -59,29 +59,41 @@ const getAllDoctorServer = () => {
   });
 };
 
+let checkRequiredFields = (inputData) => {
+  let arr = [
+    "doctorId",
+    "contentHTML",
+    "contentMarkdown",
+    "action",
+    "selectedPrice",
+    "selectedPayment",
+    "selectProvince",
+    "nameClinic",
+    "addressClinic",
+    "specialtyId",
+  ];
+  let isValid = true;
+  let element = "";
+  for (let i = 0; i < arr.length; i++) {
+    if (!inputData[arr[i]]) {
+      isValid = false;
+      element = arr[i];
+      break;
+    }
+  }
+  return {
+    isValid,
+    element,
+  };
+};
 const saveDetailInforDoctors = (inputData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // selectedPrice: "",
-      // selectedPayment: "",
-      // selectProvince: "",
-      // nameClinic: "",
-      // addressClinic: "",
-      // note: "",
-      if (
-        !inputData.doctorId ||
-        !inputData.contentHTML ||
-        !inputData.contentMarkdown ||
-        !inputData.action ||
-        !inputData.selectedPrice ||
-        !inputData.selectedPayment ||
-        !inputData.selectProvince ||
-        !inputData.nameClinic ||
-        !inputData.addressClinic
-      ) {
+      let checkObj = checkRequiredFields(inputData);
+      if (checkObj.isValid === false) {
         resolve({
           errCode: 1,
-          errMessage: "Missing parameter",
+          errMessage: `Missing required parameter: ${checkObj.element}`,
         });
       } else {
         //upset to markdown
@@ -122,6 +134,8 @@ const saveDetailInforDoctors = (inputData) => {
           doctorInfo.addressClinic = inputData.addressClinic;
           doctorInfo.nameClinic = inputData.nameClinic;
           doctorInfo.note = inputData.note;
+          doctorInfo.specialtyId = inputData.specialtyId;
+          doctorInfo.clinicId = inputData.clinicId;
 
           await doctorInfo.save();
         } else {
@@ -133,6 +147,8 @@ const saveDetailInforDoctors = (inputData) => {
             addressClinic: inputData.addressClinic,
             nameClinic: inputData.nameClinic,
             note: inputData.note,
+            specialtyId: inputData.specialty,
+            clinicId: inputData.clinicId,
           });
         }
         resolve({
