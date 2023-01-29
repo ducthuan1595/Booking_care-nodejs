@@ -1,17 +1,23 @@
-const { reject } = require("lodash");
 const db = require("../models");
 
-const postNewSpecialtyService = (data) => {
+const postNewClinicService = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.name || !data.descHTML || !data.descMarkdown) {
+      if (
+        !data.name ||
+        !data.address ||
+        !data.imageBase64 ||
+        !data.descHTML ||
+        !data.descMarkdown
+      ) {
         resolve({
           errCode: 1,
           errMessage: "Missing required parameter",
         });
       } else {
-        await db.Specialty.create({
+        await db.Clinics.create({
           name: data.name,
+          address: data.address,
           image: data.imageBase64,
           descHTML: data.descHTML,
           descMarkdown: data.descMarkdown,
@@ -27,10 +33,10 @@ const postNewSpecialtyService = (data) => {
   });
 };
 
-const getAllSpecialtyService = () => {
+const getAllClinicService = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await db.Specialty.findAll();
+      let data = await db.Clinics.findAll();
       if (data && data.length > 0) {
         data.map((item) => {
           item.image = new Buffer(item.image, "base64").toString("binary");
@@ -48,51 +54,38 @@ const getAllSpecialtyService = () => {
   });
 };
 
-const getDetailSpecialtyByIdServer = (inputId, location) => {
+const getDetailClinicService = (inputId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!inputId || !location) {
+      if (!inputId) {
         resolve({
           errCode: 1,
           errMessage: "Missing required parameter",
         });
       } else {
-        let data = await db.Specialty.findOne({
+        let data = await db.Clinics.findOne({
           where: {
             id: inputId,
           },
-          attributes: ["descHTML", "descMarkdown"],
+          attributes: ["name", "address", 'image',"descHTML", "descMarkdown"],
         });
+        if (data && data.image) {
+          data.image = new Buffer(data.image, "base64").toString("binary");
+        }
         if (data) {
-          let doctorSpecialty = [];
-          if (location === "All") {
-            doctorSpecialty = await db.Doctor_info.findAll({
-              where: {
-                specialtyId: inputId,
-              },
-              attributes: ["doctorId", "provinceId"],
-              raw: true,
-              // nest: true,
-              // plain: true,
-              // isNewRecord: true,
-            });
-          } else {
-            // find diff location
-            doctorSpecialty = await db.Doctor_info.findAll({
-              where: {
-                specialtyId: inputId,
-                provinceId: location,
-              },
-              attributes: ["doctorId", "provinceId"],
-            });
-          }
+          let doctorClinic = [];
+          doctorClinic = await db.Doctor_info.findAll({
+            where: {
+              clinicId: inputId,
+            },
+            attributes: ["doctorId", "provinceId"],
+          });
+
           // data.doctorSpecialty = doctorSpecialty;
           data = {
             ...data.dataValues,
-            doctorSpecialty: doctorSpecialty
-          }
-          // data.push(...doctorSpecialty)
-          // console.log("data11", data);
+            doctorClinic: doctorClinic,
+          };
         } else {
           data = {};
         }
@@ -110,7 +103,7 @@ const getDetailSpecialtyByIdServer = (inputId, location) => {
 };
 
 module.exports = {
-  postNewSpecialtyService,
-  getAllSpecialtyService,
-  getDetailSpecialtyByIdServer,
+  postNewClinicService,
+  getAllClinicService,
+  getDetailClinicService,
 };

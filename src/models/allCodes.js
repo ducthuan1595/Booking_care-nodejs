@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "paymentId",
         as: "paymentTypeData",
       });
+      AllCode.hasMany(models.Booking, {foreignKey: "timeType",vas: "timeTypeDataPatient"});
     }
   }
   AllCode.init(

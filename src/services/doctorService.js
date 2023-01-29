@@ -67,9 +67,10 @@ let checkRequiredFields = (inputData) => {
     "action",
     "selectedPrice",
     "selectedPayment",
-    "selectProvince",
+    "selectedProvince",
     "nameClinic",
     "addressClinic",
+    // "note",
     "specialtyId",
   ];
   let isValid = true;
@@ -129,7 +130,7 @@ const saveDetailInforDoctors = (inputData) => {
           //update
           doctorInfo.doctorId = inputData.doctorId;
           doctorInfo.priceId = inputData.selectedPrice;
-          doctorInfo.provinceId = inputData.selectProvince;
+          doctorInfo.provinceId = inputData.selectedProvince;
           doctorInfo.paymentId = inputData.selectedPayment;
           doctorInfo.addressClinic = inputData.addressClinic;
           doctorInfo.nameClinic = inputData.nameClinic;
@@ -142,12 +143,12 @@ const saveDetailInforDoctors = (inputData) => {
           await db.Doctor_info.create({
             doctorId: inputData.doctorId,
             priceId: inputData.selectedPrice,
-            provinceId: inputData.selectProvince,
+            provinceId: inputData.selectedProvince,
             paymentId: inputData.selectedPayment,
             addressClinic: inputData.addressClinic,
             nameClinic: inputData.nameClinic,
             note: inputData.note,
-            specialtyId: inputData.specialty,
+            specialtyId: inputData.specialtyId,
             clinicId: inputData.clinicId,
           });
         }
@@ -432,6 +433,47 @@ let getProfileInfoDoctorService = (doctorId) => {
   });
 };
 
+let getAllListPatientForDoctor = (doctorId, date) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      if(!doctorId || !date) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Missing required parameters'
+        })
+      } else {
+        let data = await db.Booking.findAll({
+          where: {
+            doctorId: doctorId,
+            date: date,
+            statusId: 'S2'
+          },
+          include: [
+            {
+              model: db.User, as: 'patientData',
+              attributes: ['email', 'firstName', 'address', 'gender'],
+              include: [
+                {model: db.AllCode, as: 'genderData', attributes: ['value_en', 'value_vi']}
+              ]
+            },
+            {
+                model: db.AllCode, as: 'timeTypeDataPatient', attributes: ['value_en', 'value_vi']
+            }
+          ],
+          raw: false,
+          nest: true
+        })
+        resolve({
+          errCode: 0,
+          data
+        })
+      }
+    } catch (e) {
+      reject(e);
+    }
+  })
+}
+
 module.exports = {
   getTopDoctorHome,
   getAllDoctorServer,
@@ -441,4 +483,5 @@ module.exports = {
   getScheduleByDateService,
   getExtraInfoDoctorByIdService,
   getProfileInfoDoctorService,
+  getAllListPatientForDoctor
 };
