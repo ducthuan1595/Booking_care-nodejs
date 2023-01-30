@@ -54,6 +54,59 @@ let bodyHTMLEmail = (dataSend) => {
   return result;
 };
 
+let getBodyHTMLEmailRemedy = (dataSend) => {
+  let result = "";
+  if (dataSend.language == "vi") {
+    result = `
+    <h2>Xin chào, ${dataSend.patientName}</h2>
+    <p>Bạn đã đặt lịch khám bệnh trên ứng dụng của chúng tôi</p>
+    <p>Thông tin đơn thuốc được gửi trong file đính kèm.</P>
+
+    <p>Cảm ơn! Chúc một ngày tốt lành</p>
+    `;
+  }
+  if (dataSend.language == "en") {
+    result = `
+    <h2>Dear, ${dataSend.patientName}</h2>
+    <p>This is bill of medicine when you care at the booking care</p>
+    <p>Information medicine is be send in the attachment file</p>
+
+    <p>Thank you, used our server!</p>
+    <p>Good day.</p>
+    `;
+  }
+  return result;
+}
+
+let sendAttachment = async(dataSend) => {
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_APP, // generated ethereal user
+      pass: process.env.EMAIL_APP_PASSWORD, // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"Fred Foo 👻" <thuan.truong.vo.cam@gmail.com>', // sender address
+    to: dataSend.email, // list of receivers
+    subject: "Thông tin đặt lịch khám bệnh", // Subject line
+    text: "Hello world?", // plain text body
+    html: getBodyHTMLEmailRemedy(dataSend),
+    attachments: [
+      {
+        filename: `remedy-${dataSend.patientId}-${new Date().getTime()}.png`,
+        content: dataSend.imgBase64.split('base64,')[1],
+        encoding: 'base64'
+      },
+    ]
+  });
+}
+
 module.exports = {
   sendSimpleEmail,
+  sendAttachment
 };
