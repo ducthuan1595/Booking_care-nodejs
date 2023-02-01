@@ -39,7 +39,7 @@ const getAllClinicService = () => {
       let data = await db.Clinics.findAll();
       if (data && data.length > 0) {
         data.map((item) => {
-          item.image = new Buffer(item.image, "base64").toString("binary");
+          item.image = Buffer.from(item.image, "base64").toString("binary");
           return item;
         });
       }
@@ -70,11 +70,11 @@ const getDetailClinicService = (inputId) => {
           attributes: ["name", "address", 'image',"descHTML", "descMarkdown"],
         });
         if (data && data.image) {
-          data.image = new Buffer(data.image, "base64").toString("binary");
+          data.image = Buffer.from(data.image, "base64").toString("binary");
         }
         if (data) {
           let doctorClinic = [];
-          doctorClinic = await db.Doctor_info.findAll({
+          doctorClinic = await db.Doctor_Info.findAll({
             where: {
               clinicId: inputId,
             },

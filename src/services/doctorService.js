@@ -121,7 +121,7 @@ const saveDetailInforDoctors = (inputData) => {
           }
         }
         //upset to doctor info table
-        let doctorInfo = await db.Doctor_info.findOne({
+        let doctorInfo = await db.Doctor_Info.findOne({
           where: {
             doctorId: inputData.doctorId,
           },
@@ -141,7 +141,7 @@ const saveDetailInforDoctors = (inputData) => {
 
           await doctorInfo.save();
         } else {
-          await db.Doctor_info.create({
+          await db.Doctor_Info.create({
             doctorId: inputData.doctorId,
             priceId: inputData.selectedPrice,
             provinceId: inputData.selectedProvince,
@@ -191,7 +191,7 @@ const getDetailDoctorByIdServer = (id) => {
               attributes: ["value_en", "value_vi"],
             },
             {
-              model: db.Doctor_info,
+              model: db.Doctor_Info,
               attributes: {
                 exclude: ["id", "doctorId"], //remove attribute when receive data
               },
@@ -219,7 +219,7 @@ const getDetailDoctorByIdServer = (id) => {
           nest: true, //lam beautiful code
         });
         if (data && data.image) {
-          data.image = new Buffer(data.image, "base64").toString("binary");
+          data.image = Buffer.from(data.image, "base64").toString("binary");
         }
         if (!data) data = {};
         resolve({
@@ -251,7 +251,7 @@ const bulkCreateScheduleService = (data) => {
         }
         //get all date existing
         let existing = await db.Schedule.findAll({
-          where: { doctorId: data.doctorId, date: data.formatedDate },
+          where: { doctorId: data.doctorId, date: '' + data.formatedDate },
           attributes: ["doctorId", "date", "timeType", "maxNumber"],
           raw: true,
         });
@@ -325,7 +325,7 @@ let getExtraInfoDoctorByIdService = (doctorId) => {
           errMessage: "Missing required parameter",
         });
       } else {
-        let data = await db.Doctor_info.findOne({
+        let data = await db.Doctor_Info.findOne({
           where: {
             doctorId: doctorId,
           },
@@ -392,7 +392,7 @@ let getProfileInfoDoctorService = (doctorId) => {
               attributes: ["value_en", "value_vi"],
             },
             {
-              model: db.Doctor_info,
+              model: db.Doctor_Info,
               attributes: {
                 exclude: ["id", "doctorId"], //remove attribute when receive data
               },
@@ -420,7 +420,7 @@ let getProfileInfoDoctorService = (doctorId) => {
           nest: true, //lam beautiful code
         });
         if (data && data.image) {
-          data.image = new Buffer(data.image, "base64").toString("binary");
+          data.image = Buffer.from(data.image, "base64").toString("binary");
         }
         if (!data) data = {};
         resolve({

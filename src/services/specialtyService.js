@@ -33,7 +33,7 @@ const getAllSpecialtyService = () => {
       let data = await db.Specialty.findAll();
       if (data && data.length > 0) {
         data.map((item) => {
-          item.image = new Buffer(item.image, "base64").toString("binary");
+          item.image = Buffer.from(item.image, "base64").toString("binary");
           return item;
         });
       }
@@ -66,7 +66,7 @@ const getDetailSpecialtyByIdServer = (inputId, location) => {
         if (data) {
           let doctorSpecialty = [];
           if (location === "All") {
-            doctorSpecialty = await db.Doctor_info.findAll({
+            doctorSpecialty = await db.Doctor_Info.findAll({
               where: {
                 specialtyId: inputId,
               },
@@ -78,7 +78,7 @@ const getDetailSpecialtyByIdServer = (inputId, location) => {
             });
           } else {
             // find diff location
-            doctorSpecialty = await db.Doctor_info.findAll({
+            doctorSpecialty = await db.Doctor_Info.findAll({
               where: {
                 specialtyId: inputId,
                 provinceId: location,
