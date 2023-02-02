@@ -81,11 +81,12 @@ const getDetailClinicService = (inputId) => {
             attributes: ["doctorId", "provinceId"],
           });
 
-          // data.doctorSpecialty = doctorSpecialty;
-          data = {
-            ...data.dataValues,
-            doctorClinic: doctorClinic,
-          };
+          data.doctorClinic = doctorClinic;
+          // console.log('data clinic', data)
+          // data = {
+          //   ...data.dataValues,
+          //   doctorClinic: doctorClinic,
+          // };
         } else {
           data = {};
         }
