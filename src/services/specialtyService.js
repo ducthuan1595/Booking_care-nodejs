@@ -86,11 +86,11 @@ const getDetailSpecialtyByIdServer = (inputId, location) => {
               attributes: ["doctorId", "provinceId"],
             });
           }
-          // data.doctorSpecialty = doctorSpecialty;
-          data = {
-            ...data.dataValues,
-            doctorSpecialty: doctorSpecialty
-          }
+          data.doctorSpecialty = doctorSpecialty;
+          // data = {
+          //   ...data.dataValues,
+          //   doctorSpecialty: doctorSpecialty
+          // }
           // data.push(...doctorSpecialty)
           // console.log("data11", data);
         } else {
