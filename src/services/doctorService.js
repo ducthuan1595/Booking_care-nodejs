@@ -237,6 +237,7 @@ const bulkCreateScheduleService = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!data.arrSchedule && !data.doctorId && !data.formatedDate) {
+        // if(!data.doctorId){
         resolve({
           errCode: 1,
           errMessage: "Missing required parameter",
@@ -251,7 +252,7 @@ const bulkCreateScheduleService = (data) => {
         }
         //get all date existing
         let existing = await db.Schedule.findAll({
-          where: { doctorId: data.doctorId, date: '' + data.formatedDate },
+          where: { doctorId: data.doctorId, date: '' +data.formatedDate },
           attributes: ["doctorId", "date", "timeType", "maxNumber"],
           raw: true,
         });

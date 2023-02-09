@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       maxNumber: DataTypes.INTEGER,
       date: DataTypes.STRING,
       timeType: DataTypes.STRING,
-      doctorId: DataTypes.STRING,
+      doctorId: DataTypes.INTEGER,
     },
     {
       sequelize,

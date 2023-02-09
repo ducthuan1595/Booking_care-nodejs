@@ -2,27 +2,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Schedules", {
+    await queryInterface.createTable("Handbooks", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      currentNumber: {
-        type: Sequelize.INTEGER,
+      contentHTML: {
+        allowNull: false,
+        type: Sequelize.TEXT("long"),
       },
-      maxNumber: {
-        type: Sequelize.INTEGER,
+      contentMarkdown: {
+        allowNull: false,
+        type: Sequelize.TEXT("long"),
       },
-      date: {
-        type: Sequelize.STRING,
+      description: {
+        allowNull: true,
+        type: Sequelize.TEXT("long"),
       },
-      timeType: {
-        type: Sequelize.STRING,
-      },
-      doctorId: {
-        type: Sequelize.INTEGER,
+      image: {
+        allowNull: true,
+        type: Sequelize.BLOB('long'),
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Schedules");
+    await queryInterface.dropTable("Handbooks");
   },
 };
