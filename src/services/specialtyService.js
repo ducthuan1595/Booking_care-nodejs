@@ -27,10 +27,74 @@ const postNewSpecialtyService = (data) => {
   });
 };
 
+const editSpecialtyService = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.name || !data.descHTML || !data.descMarkdown || !data.id) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing required parameter",
+        });
+      } else {
+        let specialty = await db.Specialty.findOne({
+          where: { id: data.id },
+          raw: false
+        });
+        if(specialty) {
+          specialty.name = data.name;
+          specialty.descHTML = data.descHTML;
+          specialty.descMarkdown = data.descMarkdown;
+          specialty.image = data.imageBase64;
+          await specialty.save();
+          resolve({
+            errCode: 0,
+            errMessage: "ok",
+          });
+        }else {
+          resolve({
+            errCode: 1,
+            errMessage: "Not found specialty",
+          });
+        }
+        
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const deleteSpecialtyService = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      console.log(data.id);
+
+      if(!data.id) {
+        resolve({
+          errCode: 1,
+          message: 'Specialty is not exist!'
+        });
+      }else {
+          db.Specialty.destroy({
+            where: { id: data.id }
+          })
+          resolve({
+            errCode: 0,
+            message: 'ok'
+          })
+      }
+    }catch(err) {
+      reject(err)
+    }
+  })
+}
+
 const getAllSpecialtyService = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await db.Specialty.findAll();
+      let data = await db.Specialty.findAll(
+        // {attributes: { exclude: ['image']}}
+      );
       if (data && data.length > 0) {
         data.map((item) => {
           item.image = Buffer.from(item.image, "base64").toString("binary");
@@ -113,4 +177,6 @@ module.exports = {
   postNewSpecialtyService,
   getAllSpecialtyService,
   getDetailSpecialtyByIdServer,
+  editSpecialtyService,
+  deleteSpecialtyService
 };

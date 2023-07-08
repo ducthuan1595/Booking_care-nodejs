@@ -203,7 +203,7 @@ let getAllCodeService = (typeInput) => {
     try {
       if (!typeInput) {
         resolve({
-          erroCode: 1,
+          errCode: 1,
           errMessage: "Not Found parameters!",
         });
       } else {
