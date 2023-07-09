@@ -47,14 +47,15 @@ const postBookAppointmentService = (data) => {
             firstName: data.fullName
           },
         });
+
         //create a booking record
         if (user && user[0]) {
           await db.Booking.findOrCreate({
-            where: { patientId: user[0].id },
+            where: { patientId: user[0].id.toString() },
             defaults: {
               statusId: "S1",
-              doctorId: data.doctorId,
-              patientId: user[0].id,
+              doctorId: data.doctorId.toString(),
+              patientId: user[0].id.toString(),
               date: data.date,
               timeType: data.timeType,
               token: token,

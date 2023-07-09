@@ -6,10 +6,10 @@ let sendSimpleEmail = async (dataSend) => {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
+    service: 'gmail',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      type: 'OAuth2',
       user: process.env.EMAIL_APP, // generated ethereal user
       pass: process.env.EMAIL_APP_PASSWORD, // generated ethereal password
     },
@@ -85,7 +85,6 @@ let sendAttachment = async(dataSend) => {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      type: 'OAuth2',
       user: process.env.EMAIL_APP, // generated ethereal user
       pass: process.env.EMAIL_APP_PASSWORD, // generated ethereal password
     },
